@@ -10,6 +10,9 @@ case - to keep an historical record of /etc changes.
 There is no daemon process, it essentially hooks into package installation and
 cron to periodically commit the state of the /etc directory.
 
+Note that this will store the Git DB at /etc/.git, and as such will increase
+the size of your root filesystem over time.
+
 Dependencies
 ============
 
