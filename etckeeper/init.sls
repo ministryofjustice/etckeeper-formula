@@ -1,11 +1,11 @@
 include:
-  - bootstrap
+  - .deps
 
 etckeeper:
   pkg:
     - installed
     - require:
-      - pkg: git
+      - pkg: etckeeper_deps
   file.managed:
     - name: /etc/etckeeper/etckeeper.conf
     - source: salt://minions/base/files/etckeeper.conf
