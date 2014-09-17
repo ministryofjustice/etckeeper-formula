@@ -13,13 +13,12 @@ cron to periodically commit the state of the /etc directory.
 Note that this will store the Git DB at /etc/.git, and as such will increase
 the size of your root filesystem over time.
 
-Dependencies
-============
+NOTE
+----
 
-.. note::
+This also adds 'order: 0' and 'order: last' hooks, which commit at the start
+and end of the Salt run. These pick up any changes made *prior* to the salt run
+and during the salt run.
 
-   This formula has a dependency on the following salt formulas:
-
-   `bootstrap <https://github.com/ministryofjustice/bootstrap-formula>`_ -- for
-   git
-
+These are hash-tagged '#salt-start' and '#salt-end' for subsequent use in
+monitoring scripts.
