@@ -23,13 +23,13 @@ etckeeper_commit_at_start:
   cmd.run:
     - order: 0
     - cwd: /etc
-    - name: "/usr/bin/etckeeper commit 'Start of Salt Run'"
-    - onlyif: test -d /etc/.git
+    - name: 'if [ -n "$(git status --porcelain)" ]; then /usr/bin/etckeeper commit "Changes found prior to start of salt run #salt-start"; fi'
+    - onlyif: 'test -d /etc/.git && test -n "$(git status --porcelain)"'
 
 etckeeper_commit_at_end:
   cmd.run:
     - order: last
     - cwd: /etc
-    - name: "/usr/bin/etckeeper commit 'End of Salt Run'"
-    - onlyif: test -d /etc/.git
+    - name: '/usr/bin/etckeeper commit "Changes made during salt run #salt-end"'
+    - onlyif: 'test -d /etc/.git && test -n "$(git status --porcelain)"'
 
