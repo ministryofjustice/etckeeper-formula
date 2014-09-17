@@ -8,7 +8,7 @@ etckeeper:
       - pkg: etckeeper_deps
   file.managed:
     - name: /etc/etckeeper/etckeeper.conf
-    - source: salt://minions/base/files/etckeeper.conf
+    - source: salt://etckeeper/files/etckeeper.conf
 
 etckeeper_initial_commit:
   cmd.run:
