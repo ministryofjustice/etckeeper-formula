@@ -20,5 +20,8 @@ This also adds 'order: 0' and 'order: last' hooks, which commit at the start
 and end of the Salt run. These pick up any changes made *prior* to the salt run
 and during the salt run.
 
+As a result, be careful with any other states that run with 'order: 0' or
+'order: last' -- specifically if they potentially change any files in /etc.
+
 These are hash-tagged '#salt-start' and '#salt-end' for subsequent use in
 monitoring scripts.
