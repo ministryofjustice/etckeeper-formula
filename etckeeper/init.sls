@@ -6,9 +6,52 @@ etckeeper:
     - installed
     - require:
       - pkg: etckeeper_deps
-  file.managed:
-    - name: /etc/etckeeper/etckeeper.conf
+
+/etc/etckeeper:
+  file:
+    - directory
+    - clean: True
+    - mode: 0755
+    - owner: root
+    - group: root
+    - require:
+      - pkg: etckeeper
+
+/etc/etckeeper/etckeeper.conf:
+  file:
+    - managed
     - source: salt://etckeeper/files/etckeeper.conf
+    - mode: 0644
+    - owner: root
+    - group: root
+
+{% set subdirs = [
+    'pre-install.d',
+    'post-install.d',
+    'init.d',
+    'uninit.d',
+    'unclean.d',
+    'update-ignore.d',
+    'pre-commit.d',
+    'commit.d',
+    'vcs.d',
+    'list-installed.d'
+    ]
+%}
+
+{% for subdir in subdirs %}
+/etc/etckeeper/{{subdir}}:
+  file:
+    - recurse
+    - source: salt://etckeeper/files/{{subdir}}
+    - clean: True
+    - dir_mode: 0755
+    - file_mode: 0755
+    - owner: root
+    - group: root
+    - require:
+       - pkg: etckeeper
+{% endfor %}
 
 etckeeper_initial_commit:
   cmd.run:
