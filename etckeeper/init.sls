@@ -47,6 +47,7 @@ etckeeper:
     - clean: True
     - dir_mode: 0755
     - file_mode: 0755
+    - exclude_pat: README
     - owner: root
     - group: root
     - require:
