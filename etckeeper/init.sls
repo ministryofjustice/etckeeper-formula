@@ -2,14 +2,12 @@ include:
   - .deps
 
 etckeeper:
-  pkg:
-    - installed
+  pkg.installed:
     - require:
       - pkg: etckeeper_deps
 
 /etc/etckeeper:
-  file:
-    - directory
+  file.directory:
     - clean: True
     - mode: 0755
     - owner: root
@@ -18,8 +16,7 @@ etckeeper:
       - pkg: etckeeper
 
 /etc/etckeeper/etckeeper.conf:
-  file:
-    - managed
+  file.managed:
     - source: salt://etckeeper/files/etckeeper.conf
     - mode: 0644
     - owner: root
@@ -41,8 +38,7 @@ etckeeper:
 
 {% for subdir in subdirs %}
 /etc/etckeeper/{{subdir}}:
-  file:
-    - recurse
+  file.recurse:
     - source: salt://etckeeper/files/{{subdir}}
     - clean: True
     - dir_mode: 0755
