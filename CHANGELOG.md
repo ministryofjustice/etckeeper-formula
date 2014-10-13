@@ -1,4 +1,7 @@
-Current:
+1.0.0:
 
-* basic etckeeper/git management. Requires bootstrap-formula for git.
+* highlight package install operation performed under salt
+* hard-manage all /etc/etckeeper directories, to prevent manual disabling
+  of operations.
+* basic etckeeper/git management.
 
