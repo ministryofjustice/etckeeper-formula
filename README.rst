@@ -25,3 +25,9 @@ As a result, be careful with any other states that run with 'order: 0' or
 
 These are hash-tagged '#salt-start' and '#salt-end' for subsequent use in
 monitoring scripts.
+
+An additional 'package install' watcher has been installed in 'pre-install.d'
+and 'post-install.d' to hash-tag commit subjects of any package management
+operations performed by salt with '#under-salt-call' or '#under-salt-minion'.
+This ensures we can distinguish them from package installations performed
+*outside* of salt runs.

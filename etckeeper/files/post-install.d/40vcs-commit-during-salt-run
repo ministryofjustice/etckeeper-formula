@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+if (pstree -as $$ | grep -v grep | grep -q salt-minion); then
+  MESSAGE_SUFFIX=" #under-salt-minion"
+elif (pstree -as $$ | grep -v grep | grep -q salt-call); then
+  MESSAGE_SUFFIX=" #under-salt-call"
+else
+  exit 0
+fi
+		
+pl="/var/cache/etckeeper/packagelist"
+
+if etckeeper unclean; then
+	message="committing changes in /etc after $HIGHLEVEL_PACKAGE_MANAGER run"
+
+	if [ -e $pl.pre-install ]; then
+		(
+			echo "$message$MESSAGE_SUFFIX"
+			echo
+			echo "Package changes:"
+			etckeeper list-installed | diff -U0 $pl.pre-install - | tail -n+4 | egrep '^[-+]' || true
+		) | etckeeper commit --stdin
+	else
+		etckeeper commit "$(printf "$message$MESSAGE_SUFFIX")"
+	fi
+fi
+	
+if [ -e $pl.pre-install ]; then
+	rm -f $pl.pre-install
+fi
