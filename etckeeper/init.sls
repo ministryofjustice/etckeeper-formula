@@ -1,6 +1,6 @@
 include:
   - .deps
-
+  
 etckeeper:
   pkg.installed:
     - require:
@@ -10,7 +10,7 @@ etckeeper:
   file.directory:
     - clean: True
     - mode: 0755
-    - owner: root
+    - user: root
     - group: root
     - require:
       - pkg: etckeeper
@@ -19,8 +19,16 @@ etckeeper:
   file.managed:
     - source: salt://etckeeper/files/etckeeper.conf
     - mode: 0644
-    - owner: root
+    - user: root
     - group: root
+
+{% if salt['pillar.get']('etckeeper:alerts', False) %}
+  file.managed:
+    - name: /etc/etckeeper/.alerts
+    - mode: 0600
+    - user: root
+    - group: root
+{% endif %}
 
 {% set subdirs = [
     'pre-install.d',
@@ -44,7 +52,7 @@ etckeeper:
     - dir_mode: 0755
     - file_mode: 0755
     - exclude_pat: README
-    - owner: root
+    - user: root
     - group: root
     - require:
        - pkg: etckeeper
