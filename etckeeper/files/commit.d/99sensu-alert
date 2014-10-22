@@ -1,0 +1,7 @@
+#!/bin/sh
+
+netstat -an |grep -q '^tcp.*127.0.0.1:3030 .*LISTEN'
+
+if [ $? -eq 0 -a -f /etc/etckeeper/.alerts ]; then
+        echo '{"name": "etckeeper-commit", "status": 2, "output": "/etc has been altered", "handler": "default"}' | nc localhost 3030|grep -v ok
+fi
