@@ -23,8 +23,8 @@ etckeeper:
     - group: root
 
 {% if salt['pillar.get']('etckeeper:alerts', False) %}
+/etc/etckeeper/.alerts:
   file.managed:
-    - name: /etc/etckeeper/.alerts
     - mode: 0600
     - user: root
     - group: root
