@@ -19,8 +19,13 @@ etckeeper:
   file.managed:
     - source: salt://etckeeper/files/etckeeper.conf
     - mode: 0644
+    - makedirs: True
     - owner: root
     - group: root
+    - require_in:
+      - file: /etc/etckeeper
+    - require:
+      - pkg: etckeeper
 
 {% set subdirs = [
     'pre-install.d',
@@ -43,11 +48,14 @@ etckeeper:
     - clean: True
     - dir_mode: 0755
     - file_mode: 0755
+    - makedirs: True
     - exclude_pat: README
     - owner: root
     - group: root
     - require:
        - pkg: etckeeper
+    - require_in:
+       - file: /etc/etckeeper
 {% endfor %}
 
 etckeeper_initial_commit:
