@@ -15,6 +15,7 @@ etckeeper:
     - require:
       - pkg: etckeeper
 
+{% if salt['pillar.get']('etckeeper:deploy_state_config', False) %}
 /etc/etckeeper/etckeeper.conf:
   file.managed:
     - source: salt://etckeeper/files/etckeeper.conf
@@ -57,6 +58,7 @@ etckeeper:
     - require_in:
        - file: /etc/etckeeper
 {% endfor %}
+{% endif %}
 
 etckeeper_initial_commit:
   cmd.run:
