@@ -6,6 +6,7 @@ etckeeper:
     - require:
       - pkg: etckeeper_deps
 
+{% if salt['pillar.get']('etckeeper:deploy_state_config', False) %}
 /etc/etckeeper:
   file.directory:
     - clean: True
@@ -57,6 +58,7 @@ etckeeper:
     - require_in:
        - file: /etc/etckeeper
 {% endfor %}
+{% endif %}
 
 etckeeper_initial_commit:
   cmd.run:
@@ -64,7 +66,9 @@ etckeeper_initial_commit:
     - name: "/usr/bin/etckeeper init && /usr/bin/etckeeper commit 'Initial commit'"
     - require:
       - pkg: etckeeper
+      {% if salt['pillar.get']('etckeeper:deploy_state_config', False) %}
       - file: /etc/etckeeper/etckeeper.conf
+      {% endif %}
     - unless: test -d /etc/.git
 
 etckeeper_commit_at_start:
